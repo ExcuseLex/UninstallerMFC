@@ -6,7 +6,7 @@
 #include <vector>
 #include "AppList.h"
 
-std::vector<UninstallInfo> uninstallInfoVector;
+
 // Диалоговое окно CUninstallerMFCDlg
 class CUninstallerMFCDlg : public CDialogEx
 {
@@ -33,8 +33,10 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+	std::vector<UninstallInfo> uninstallInfoVector;
 public:
 	afx_msg void OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
 	CListCtrl hListCtr;
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
 };

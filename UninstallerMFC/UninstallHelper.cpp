@@ -46,7 +46,7 @@ void UninstallHelper::Applist_X32() {
                         if (RegQueryValueEx(hAppKey, L"DisplayIcon", NULL,
                             &dwType, (unsigned char*)sDisplayIcon, &dwBufferSize) == ERROR_SUCCESS)
                         {
-                            uninstallInfoVector.push_back(UninstallInfo(sUninstallPath, sDisplayName, sDisplayIcon, sAppKeyName, startHKey, dwByte));
+                            uninstallInfoVector.push_back(UninstallInfo(sUninstallPath, sDisplayName, sDisplayIcon, sAppKeyName, startHKey, sSubKey, dwByte));
                         }
                     }
                 }
@@ -102,7 +102,7 @@ void UninstallHelper:: Applist_X64() {
                         if (RegQueryValueEx(hAppKey, L"DisplayIcon", NULL,
                             &dwType, (unsigned char*)sDisplayIcon, &dwBufferSize) == ERROR_SUCCESS)
                         {
-                            uninstallInfoVector.push_back(UninstallInfo(sUninstallPath, sDisplayName, sDisplayIcon, sAppKeyName, startHKey, dwByte));
+                            uninstallInfoVector.push_back(UninstallInfo(sUninstallPath, sDisplayName, sDisplayIcon, sAppKeyName, startHKey, sSubKey, dwByte));
                         }
                     }
                 }
@@ -158,7 +158,7 @@ void UninstallHelper::App_user() {
                         if (RegQueryValueEx(hAppKey, L"DisplayIcon", NULL,
                             &dwType, (unsigned char*)sDisplayIcon, &dwBufferSize) == ERROR_SUCCESS)
                         {
-                            uninstallInfoVector.push_back(UninstallInfo(sUninstallPath, sDisplayName, sDisplayIcon, sAppKeyName, startHKey, dwByte));
+                            uninstallInfoVector.push_back(UninstallInfo(sUninstallPath, sDisplayName, sDisplayIcon, sAppKeyName, startHKey, sSubKey, dwByte));
                         }
                     }
                 }

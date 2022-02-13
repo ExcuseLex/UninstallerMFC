@@ -70,6 +70,7 @@ BEGIN_MESSAGE_MAP(CUninstallerMFCDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CUninstallerMFCDlg::OnLvnItemchangedList1)
 	ON_BN_CLICKED(IDC_BUTTON1, &CUninstallerMFCDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CUninstallerMFCDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -200,7 +201,7 @@ void CUninstallerMFCDlg::OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CUninstallerMFCDlg::OnBnClickedButton1()
 {
-	auto ggg = hListCtr.GetSelectionMark();
+	auto selectedRowNumber = hListCtr.GetSelectionMark();
 
 	PROCESS_INFORMATION PI;
 	STARTUPINFOW SI;
@@ -208,7 +209,7 @@ void CUninstallerMFCDlg::OnBnClickedButton1()
 	ZeroMemory(&SI, sizeof(SI));
 	SI.cb = sizeof(STARTUPINFOW);
 
-	if (CreateProcessW(NULL, (LPWSTR)uninstallInfoVector[ggg].UninstallPath.c_str(), NULL, NULL, FALSE, NULL, NULL, NULL, &SI, &PI))
+	if (CreateProcessW(NULL, (LPWSTR)uninstallInfoVector[selectedRowNumber].UninstallPath.c_str(), NULL, NULL, FALSE, NULL, NULL, NULL, &SI, &PI))
 	{
 		WaitForSingleObject(PI.hProcess, INFINITE);
 		CloseHandle(PI.hProcess);
@@ -216,5 +217,26 @@ void CUninstallerMFCDlg::OnBnClickedButton1()
 	}
 	int g = GetLastError();
 
-	CheckRegExist();
+	/*CheckRegExist();*/
+}
+
+
+void CUninstallerMFCDlg::OnBnClickedButton2()
+{
+	auto selectedRowNumber = hListCtr.GetSelectionMark();
+	HKEY hKey = NULL;
+	if (RegOpenKeyEx(uninstallInfoVector[selectedRowNumber].HKey, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", 0, uninstallInfoVector[selectedRowNumber].DwType, &hKey) == ERROR_SUCCESS)
+	{
+		if (RegDeleteTree(hKey, uninstallInfoVector[selectedRowNumber].RegKeyName.c_str()) == ERROR_SUCCESS)
+		{
+
+		}
+		RegCloseKey(hKey);
+	}
+	int nItem = -1;
+	while ((nItem = hListCtr.GetNextItem(nItem, LVNI_SELECTED)) != -1)
+	{
+		if (hListCtr.DeleteItem(nItem))
+			nItem--;
+	}
 }
